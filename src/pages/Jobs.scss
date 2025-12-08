@@ -1,0 +1,113 @@
+.jobs-page {
+    padding: 40px 0;
+    min-height: calc(100vh - 150px);
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    h1 {
+        margin: 0 0 32px 0;
+        font-size: 32px;
+        color: #1f2937;
+    }
+
+    .filters {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 32px;
+
+        input,
+        select {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 16px;
+
+            &:focus {
+                outline: none;
+                border-color: #2563eb;
+            }
+        }
+    }
+
+    .loading {
+        text-align: center;
+        padding: 60px 0;
+        color: #6b7280;
+    }
+
+    .jobs-grid {
+        display: grid;
+        gap: 20px;
+    }
+
+    .job-card {
+        background: #fff;
+        padding: 24px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        text-decoration: none;
+        color: inherit;
+        transition: all 0.2s;
+
+        &:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-color: #2563eb;
+        }
+
+        .job-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+
+            .company-logo {
+                width: 60px;
+                height: 60px;
+                border-radius: 8px;
+                object-fit: cover;
+            }
+
+            h3 {
+                margin: 0 0 8px 0;
+                font-size: 20px;
+                color: #1f2937;
+            }
+
+            .company-name {
+                margin: 0;
+                color: #6b7280;
+                font-size: 14px;
+            }
+        }
+
+        .job-details {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 12px;
+
+            span {
+                color: #6b7280;
+                font-size: 14px;
+            }
+
+            .job-type {
+                background: #dbeafe;
+                color: #1e40af;
+                padding: 4px 12px;
+                border-radius: 12px;
+                font-size: 12px;
+                font-weight: 500;
+            }
+        }
+
+        .salary {
+            margin: 0;
+            color: #059669;
+            font-weight: 500;
+        }
+    }
+}

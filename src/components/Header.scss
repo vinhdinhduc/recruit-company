@@ -1,0 +1,106 @@
+.header {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+    }
+
+    .logo {
+        text-decoration: none;
+        color: #2563eb;
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+    }
+
+    .nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+
+        .nav-link {
+            text-decoration: none;
+            color: #374151;
+            font-weight: 500;
+            transition: color 0.2s;
+
+            &:hover {
+                color: #2563eb;
+            }
+        }
+
+        .btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+
+            &.btn-primary {
+                background: #2563eb;
+                color: #fff;
+
+                &:hover {
+                    background: #1d4ed8;
+                }
+            }
+        }
+
+        .user-menu {
+            position: relative;
+
+            .user-name {
+                cursor: pointer;
+                font-weight: 500;
+            }
+
+            .dropdown {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #fff;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                min-width: 150px;
+                margin-top: 8px;
+            }
+
+            &:hover .dropdown {
+                display: block;
+            }
+
+            .dropdown-item {
+                display: block;
+                width: 100%;
+                padding: 12px 16px;
+                border: none;
+                background: none;
+                text-align: left;
+                color: #374151;
+                cursor: pointer;
+                text-decoration: none;
+
+                &:hover {
+                    background: #f3f4f6;
+                }
+            }
+        }
+    }
+}
