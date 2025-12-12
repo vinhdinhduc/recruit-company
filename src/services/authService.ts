@@ -3,6 +3,7 @@ import api from './api';
 export interface LoginData {
   email: string;
   password: string;
+  rememberMe?: boolean;
 }
 
 export interface RegisterData {
@@ -16,7 +17,9 @@ export interface RegisterData {
 export const authService = {
   login: async (data: LoginData) => {
     const response = await api.post('/auth/login', data);
-    if (response.data.success) {
+   
+    
+    if (response.data.code === 0) {
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
     }
@@ -25,7 +28,8 @@ export const authService = {
 
   register: async (data: RegisterData) => {
     const response = await api.post('/auth/register', data);
-    if (response.data.success) {
+      console.log("Check response", response);
+    if (response.data.code === 0) {
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.data.user));
     }

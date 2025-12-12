@@ -29,4 +29,9 @@ export const applicationService = {
     const response = await api.delete(`/applications/${id}`);
     return response.data;
   },
+
+  getApplicationDetail: async (id: number) => {
+    const response = await api.get(`/applications/${id}`);
+    return response.data;
+  },
 };

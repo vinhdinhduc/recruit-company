@@ -20,3 +20,29 @@ body {
 .main-content {
     flex: 1;
 }
+
+// Placeholder page styles
+.page-placeholder {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 16px;
+
+    h1 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0 0 16px 0;
+    }
+
+    p {
+        font-size: 16px;
+        color: #6b7280;
+        margin: 0;
+    }
+}
