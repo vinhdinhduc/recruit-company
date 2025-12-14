@@ -58,6 +58,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ userType }) => {
     { path: '/admin/dashboard', icon: faChartLine, label: 'Tổng quan' },
     { path: '/admin/users', icon: faUsers, label: 'Quản lý người dùng' },
     { path: '/admin/companies', icon: faBuilding, label: 'Quản lý công ty' },
+    { path: '/admin/jobs', icon: faBriefcase, label: 'Quản lý tin tuyển dụng' },
+    { path: '/admin/applications', icon: faFileAlt, label: 'Quản lý hồ sơ' },
     { path: '/admin/categories', icon: faFolder, label: 'Quản lý danh mục' },
   ];
 

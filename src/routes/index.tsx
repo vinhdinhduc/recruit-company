@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import MainLayout from '../layouts/MainLayout';
 import AuthLayout from '../layouts/AuthLayout';
 import DashboardLayout from '../layouts/DashboardLayout';
+import ManageApplications from '../pages/admin/ManageApplications';
 
 // Public Pages (Lazy loaded)
 const Home = lazy(() => import('../pages/home/Home'));
@@ -116,6 +117,8 @@ const AppRoutes: React.FC = () => {
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="users" element={<ManageUsers />} />
           <Route path="companies" element={<ManageCompanies />} />
+          <Route path="jobs" element={<ManageJobs />} />
+          <Route path="applications" element={<ManageApplications />} />
           <Route path="categories" element={<ManageCategories />} />
         </Route>
 

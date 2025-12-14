@@ -14,7 +14,10 @@ export const applicationService = {
     const response = await api.get('/applications/my-applications');
     return response.data;
   },
-
+  getAllApplications: async (params?:{page?: number; limit?: number; company_id?: number; job_id?: number; status?: string}) => {
+    const response = await api.get('/applications', { params });
+    return response.data;
+  },
   getCompanyApplications: async (filters?: { job_id?: number; status?: string }) => {
     const response = await api.get('/applications/company-applications', { params: filters });
     return response.data;

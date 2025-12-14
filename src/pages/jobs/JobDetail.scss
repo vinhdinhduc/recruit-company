@@ -1,0 +1,888 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+// ============================================
+// JOB DETAIL
+// ============================================
+
+.job-detail {
+    min-height: 100vh;
+    background: $color-bg-secondary;
+
+    // Loading State
+    &__loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        gap: $spacing-4;
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid $color-gray-200;
+            border-top-color: $color-primary;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        p {
+            color: $color-text-secondary;
+            font-size: $font-size-base;
+        }
+    }
+
+    // Error State
+    &__error {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        gap: $spacing-4;
+        text-align: center;
+        padding: $spacing-6;
+
+        i {
+            font-size: 64px;
+            color: $color-error;
+        }
+
+        h2 {
+            font-size: $font-size-2xl;
+            color: $color-text-primary;
+            margin: 0;
+        }
+
+        p {
+            color: $color-text-secondary;
+            max-width: 500px;
+        }
+    }
+
+    // Header Section
+    &__header {
+        background: $color-white;
+        border-bottom: 1px solid $color-border-base;
+        padding: $spacing-6 0;
+
+        @include max-md {
+            padding: $spacing-4 0;
+        }
+    }
+
+    &__header-container {
+        @include container;
+    }
+
+    &__back {
+        @include reset-button;
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-2;
+        color: $color-text-secondary;
+        font-size: $font-size-sm;
+        margin-bottom: $spacing-4;
+        transition: color $transition-base;
+
+        &:hover {
+            color: $color-primary;
+        }
+
+        i {
+            font-size: $font-size-xs;
+        }
+    }
+
+    &__header-content {
+        display: flex;
+        gap: $spacing-6;
+        justify-content: space-between;
+
+        @include max-lg {
+            flex-direction: column;
+            gap: $spacing-4;
+        }
+    }
+
+    &__header-main {
+        display: flex;
+        gap: $spacing-4;
+        flex: 1;
+
+        @include max-sm {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    }
+
+    &__company-logo {
+        width: 100px;
+        height: 100px;
+        border-radius: $border-radius-lg;
+        border: 1px solid $color-border-base;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $color-white;
+        flex-shrink: 0;
+
+        @include max-sm {
+            width: 80px;
+            height: 80px;
+        }
+
+        img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+
+        i {
+            font-size: 40px;
+            color: $color-gray-400;
+        }
+    }
+
+    &__header-info {
+        flex: 1;
+    }
+
+    &__badges {
+        display: flex;
+        gap: $spacing-2;
+        margin-bottom: $spacing-3;
+        flex-wrap: wrap;
+
+        @include max-sm {
+            justify-content: center;
+        }
+    }
+
+    &__title {
+        font-size: $font-size-3xl;
+        font-weight: $font-weight-bold;
+        color: $color-text-primary;
+        margin: 0 0 $spacing-3;
+        line-height: $line-height-tight;
+
+        @include max-md {
+            font-size: $font-size-2xl;
+        }
+
+        @include max-sm {
+            font-size: $font-size-xl;
+        }
+    }
+
+    &__company {
+        display: flex;
+        align-items: center;
+        gap: $spacing-2;
+        margin-bottom: $spacing-4;
+
+        @include max-sm {
+            justify-content: center;
+        }
+    }
+
+    &__company-name {
+        font-size: $font-size-lg;
+        color: $color-text-primary;
+        font-weight: $font-weight-medium;
+    }
+
+    &__verified {
+        color: $color-primary;
+        font-size: $font-size-base;
+    }
+
+    &__meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacing-4;
+        margin-bottom: $spacing-4;
+
+        @include max-sm {
+            justify-content: center;
+        }
+    }
+
+    &__meta-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-2;
+        color: $color-text-secondary;
+        font-size: $font-size-sm;
+
+        i {
+            color: $color-primary;
+            width: 16px;
+            text-align: center;
+        }
+    }
+
+    &__stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacing-4;
+
+        @include max-sm {
+            justify-content: center;
+        }
+    }
+
+    &__stat {
+        display: flex;
+        align-items: center;
+        gap: $spacing-2;
+        color: $color-text-secondary;
+        font-size: $font-size-sm;
+
+        i {
+            color: $color-gray-400;
+        }
+    }
+
+    &__header-actions {
+        display: flex;
+        gap: $spacing-3;
+        align-items: flex-start;
+
+        @include max-lg {
+            justify-content: flex-end;
+        }
+
+        @include max-sm {
+            flex-wrap: wrap;
+            justify-content: center;
+
+            .btn-lg {
+                width: 100%;
+            }
+        }
+    }
+
+    // Container & Layout
+    &__container {
+        @include container;
+        padding-top: $spacing-6;
+        padding-bottom: $spacing-8;
+    }
+
+    &__layout {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: $spacing-6;
+
+        @include max-lg {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    // Main Content
+    &__main {
+        background: $color-white;
+        border-radius: $border-radius-lg;
+        padding: $spacing-6;
+        box-shadow: $shadow-sm;
+
+        @include max-md {
+            padding: $spacing-4;
+        }
+    }
+
+    // Tabs
+    &__tabs {
+        display: flex;
+        gap: $spacing-2;
+        border-bottom: 2px solid $color-border-base;
+        margin-bottom: $spacing-6;
+    }
+
+    &__tab {
+        @include reset-button;
+        padding: $spacing-3 $spacing-4;
+        font-size: $font-size-base;
+        font-weight: $font-weight-medium;
+        color: $color-text-secondary;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        transition: all $transition-base;
+
+        @include max-sm {
+            flex: 1;
+            padding: $spacing-3 $spacing-2;
+            font-size: $font-size-sm;
+        }
+
+        &:hover {
+            color: $color-primary;
+        }
+
+        &--active {
+            color: $color-primary;
+            border-bottom-color: $color-primary;
+        }
+    }
+
+    // Sections
+    &__section {
+        margin-bottom: $spacing-8;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &__section-title {
+        font-size: $font-size-xl;
+        font-weight: $font-weight-bold;
+        color: $color-text-primary;
+        margin: 0 0 $spacing-4;
+        display: flex;
+        align-items: center;
+        gap: $spacing-3;
+
+        i {
+            color: $color-primary;
+            font-size: $font-size-lg;
+        }
+    }
+
+    &__content {
+        color: $color-text-secondary;
+        font-size: $font-size-base;
+        line-height: $line-height-relaxed;
+
+        p {
+            margin-bottom: $spacing-4;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        ul,
+        ol {
+            margin: $spacing-4 0;
+            padding-left: $spacing-5;
+        }
+
+        li {
+            margin-bottom: $spacing-2;
+        }
+
+        strong {
+            font-weight: $font-weight-semibold;
+            color: $color-text-primary;
+        }
+    }
+
+    &__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            position: relative;
+            padding-left: $spacing-6;
+            margin-bottom: $spacing-3;
+            color: $color-text-secondary;
+            line-height: $line-height-relaxed;
+
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 10px;
+                width: 6px;
+                height: 6px;
+                background: $color-primary;
+                border-radius: 50%;
+            }
+        }
+
+        &--benefits li:before {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: $color-success;
+            width: auto;
+            height: auto;
+            background: none;
+            top: 0;
+        }
+    }
+
+    &__skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacing-2;
+    }
+
+    // Company Info
+    .company-info {
+        &__header {
+            display: flex;
+            gap: $spacing-4;
+            margin-bottom: $spacing-6;
+            padding-bottom: $spacing-6;
+            border-bottom: 1px solid $color-border-base;
+        }
+
+        &__logo {
+            width: 80px;
+            height: 80px;
+            border-radius: $border-radius-lg;
+            border: 1px solid $color-border-base;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: $color-white;
+            flex-shrink: 0;
+
+            img {
+                max-width: 80%;
+                max-height: 80%;
+                object-fit: contain;
+            }
+
+            i {
+                font-size: 32px;
+                color: $color-gray-400;
+            }
+        }
+
+        &__name {
+            font-size: $font-size-2xl;
+            font-weight: $font-weight-bold;
+            color: $color-text-primary;
+            margin: 0 0 $spacing-2;
+            display: flex;
+            align-items: center;
+            gap: $spacing-2;
+
+            i {
+                color: $color-primary;
+                font-size: $font-size-base;
+            }
+        }
+
+        &__industry {
+            color: $color-text-secondary;
+            font-size: $font-size-sm;
+        }
+
+        &__details {
+            display: grid;
+            gap: $spacing-4;
+            margin-bottom: $spacing-6;
+        }
+
+        &__detail {
+            display: flex;
+            gap: $spacing-3;
+
+            i {
+                color: $color-primary;
+                font-size: $font-size-lg;
+                width: 20px;
+                text-align: center;
+                margin-top: 2px;
+            }
+
+            strong {
+                display: block;
+                color: $color-text-primary;
+                font-weight: $font-weight-semibold;
+                margin-bottom: $spacing-1;
+            }
+
+            p {
+                color: $color-text-secondary;
+                margin: 0;
+            }
+
+            a {
+                color: $color-primary;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        &__description {
+            h3 {
+                font-size: $font-size-lg;
+                font-weight: $font-weight-semibold;
+                color: $color-text-primary;
+                margin: 0 0 $spacing-3;
+            }
+
+            p {
+                color: $color-text-secondary;
+                line-height: $line-height-relaxed;
+            }
+        }
+    }
+
+    // Sidebar
+    &__sidebar {
+        @include max-lg {
+            order: -1;
+        }
+    }
+
+    &__apply-card,
+    &__info-card,
+    &__tags-card,
+    &__share-card {
+        background: $color-white;
+        border-radius: $border-radius-lg;
+        padding: $spacing-5;
+        box-shadow: $shadow-sm;
+        margin-bottom: $spacing-4;
+
+        @include max-lg {
+            padding: $spacing-4;
+        }
+    }
+
+    &__card-title {
+        font-size: $font-size-lg;
+        font-weight: $font-weight-semibold;
+        color: $color-text-primary;
+        margin: 0 0 $spacing-4;
+    }
+
+    // Apply Card
+    &__salary {
+        display: flex;
+        align-items: center;
+        gap: $spacing-3;
+        padding: $spacing-4;
+        background: linear-gradient(135deg, $color-primary-50 0%, $color-primary-100 100%);
+        border-radius: $border-radius-base;
+        margin-bottom: $spacing-4;
+
+        i {
+            font-size: $font-size-2xl;
+            color: $color-primary;
+        }
+
+        &-label {
+            display: block;
+            font-size: $font-size-xs;
+            color: $color-text-secondary;
+            margin-bottom: $spacing-1;
+        }
+
+        &-value {
+            display: block;
+            font-size: $font-size-lg;
+            font-weight: $font-weight-bold;
+            color: $color-primary;
+        }
+    }
+
+    // Info Card
+    &__info-list {
+        display: grid;
+        gap: $spacing-4;
+    }
+
+    &__info-item {
+        display: flex;
+        gap: $spacing-3;
+
+        i {
+            color: $color-primary;
+            font-size: $font-size-lg;
+            width: 20px;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        .label {
+            display: block;
+            font-size: $font-size-xs;
+            color: $color-text-secondary;
+            margin-bottom: $spacing-1;
+        }
+
+        .value {
+            display: block;
+            font-size: $font-size-sm;
+            font-weight: $font-weight-medium;
+            color: $color-text-primary;
+        }
+    }
+
+    // Tags Card
+    &__tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacing-2;
+    }
+
+    // Share Card
+    &__share-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: $spacing-2;
+    }
+}
+
+// ============================================
+// BADGES
+// ============================================
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-1 $spacing-3;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius-full;
+    white-space: nowrap;
+
+    &--featured {
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        color: $color-white;
+    }
+
+    &--remote {
+        background: $color-success-bg;
+        color: $color-success-dark;
+    }
+}
+
+// ============================================
+// BUTTONS
+// ============================================
+
+.btn {
+    @include reset-button;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius-base;
+    transition: all $transition-base;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    // Variants
+    &-primary {
+        background: $color-primary;
+        color: $color-white;
+        border: none;
+
+        &:hover:not(:disabled) {
+            background: $color-primary-dark;
+            transform: translateY(-1px);
+            box-shadow: $shadow-md;
+        }
+    }
+
+    &-outline {
+        background: transparent;
+        color: $color-text-secondary;
+        border: 1px solid $color-border-base;
+
+        &:hover:not(:disabled) {
+            background: $color-bg-tertiary;
+            border-color: $color-primary;
+            color: $color-primary;
+        }
+    }
+
+    &-saved {
+        background: $color-primary-50;
+        color: $color-primary;
+        border: 1px solid $color-primary-200;
+
+        &:hover:not(:disabled) {
+            background: $color-primary-100;
+        }
+    }
+
+    // Sizes
+    &-lg {
+        padding: $spacing-3 $spacing-6;
+        font-size: $font-size-base;
+    }
+
+    &-icon {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+
+        i {
+            font-size: $font-size-lg;
+        }
+    }
+
+    &-block {
+        width: 100%;
+    }
+}
+
+// ============================================
+// TAGS & SKILLS
+// ============================================
+
+.tag,
+.skill-tag {
+    display: inline-block;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $color-primary;
+    background: $color-primary-50;
+    border: 1px solid $color-primary-200;
+    border-radius: $border-radius-base;
+    transition: all $transition-base;
+
+    &:hover {
+        background: $color-primary-100;
+        cursor: pointer;
+    }
+}
+
+.skill-tag {
+    background: $color-gray-100;
+    color: $color-text-primary;
+    border-color: $color-border-base;
+
+    &:hover {
+        background: $color-gray-200;
+    }
+}
+
+// ============================================
+// SHARE BUTTONS
+// ============================================
+
+.share-btn {
+    @include reset-button;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $border-radius-base;
+    font-size: $font-size-lg;
+    transition: all $transition-base;
+    cursor: pointer;
+
+    &--facebook {
+        background: #1877f2;
+        color: $color-white;
+
+        &:hover {
+            background: darken(#1877f2, 10%);
+            transform: translateY(-2px);
+        }
+    }
+
+    &--twitter {
+        background: #1da1f2;
+        color: $color-white;
+
+        &:hover {
+            background: darken(#1da1f2, 10%);
+            transform: translateY(-2px);
+        }
+    }
+
+    &--linkedin {
+        background: #0a66c2;
+        color: $color-white;
+
+        &:hover {
+            background: darken(#0a66c2, 10%);
+            transform: translateY(-2px);
+        }
+    }
+
+    &--link {
+        background: $color-gray-100;
+        color: $color-text-primary;
+
+        &:hover {
+            background: $color-gray-200;
+            transform: translateY(-2px);
+        }
+    }
+}
+
+// ============================================
+// ANIMATIONS
+// ============================================
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// ============================================
+// RESPONSIVE
+// ============================================
+
+@include max-sm {
+    .job-detail {
+        &__header {
+            padding: $spacing-3 0;
+        }
+
+        &__container {
+            padding-top: $spacing-4;
+            padding-bottom: $spacing-6;
+        }
+
+        &__layout {
+            gap: $spacing-4;
+        }
+
+        &__main {
+            padding: $spacing-4 $spacing-3;
+        }
+
+        &__section-title {
+            font-size: $font-size-lg;
+        }
+
+        &__share-buttons {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .company-info {
+        &__header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        &__name {
+            flex-direction: column;
+            gap: $spacing-1;
+        }
+    }
+}

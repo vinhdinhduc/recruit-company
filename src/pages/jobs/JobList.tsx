@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import {jobService} from "../../services/jobService";
 import './JobList.scss';
+import type { responseEncoding } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface Job {
   id: number;
   title: string;
-  company: string;
+  company: string | { id: number; company_name: string; logo: string; city: string; verified: boolean };
   companyLogo: string;
   location: string;
   city: string;
@@ -40,7 +43,7 @@ const JobList: React.FC = () => {
   const [sortBy, setSortBy] = useState<string>('newest');
   const [currentPage, setCurrentPage] = useState(1);
   const jobsPerPage = 12;
-
+  const navigate = useNavigate();
   const [filters, setFilters] = useState<FilterState>({
     keyword: '',
     location: '',
@@ -53,100 +56,33 @@ const JobList: React.FC = () => {
 
   const [showFilters, setShowFilters] = useState(false);
 
-  // Mock data - Replace with API call
-  const mockJobs: Job[] = [
-    {
-      id: 1,
-      title: 'Senior Frontend Developer',
-      company: 'Tech Corp',
-      companyLogo: '🏢',
-      location: 'Hà Nội',
-      city: 'Hà Nội',
-      salary: '2000 - 3000 USD',
-      salaryMin: 2000,
-      salaryMax: 3000,
-      type: 'Full-time',
-      experience: 'Senior',
-      deadline: '2024-12-31',
-      tags: ['React', 'TypeScript', 'Next.js'],
-      description: 'We are looking for an experienced Frontend Developer...',
-      featured: true,
-      remote: true,
-      views: 1234,
-      applicants: 45,
-      postedDate: '2024-12-01',
-    },
-    {
-      id: 2,
-      title: 'Backend Developer (Node.js)',
-      company: 'Innovation Hub',
-      companyLogo: '🚀',
-      location: 'TP.HCM',
-      city: 'TP.HCM',
-      salary: '1500 - 2500 USD',
-      salaryMin: 1500,
-      salaryMax: 2500,
-      type: 'Full-time',
-      experience: 'Mid-level',
-      deadline: '2024-12-25',
-      tags: ['Node.js', 'MongoDB', 'Express'],
-      description: 'Join our backend team...',
-      featured: false,
-      remote: false,
-      views: 890,
-      applicants: 32,
-      postedDate: '2024-12-03',
-    },
-    {
-      id: 3,
-      title: 'UX/UI Designer',
-      company: 'Creative Studio',
-      companyLogo: '🎨',
-      location: 'Đà Nẵng',
-      city: 'Đà Nẵng',
-      salary: '1200 - 2000 USD',
-      salaryMin: 1200,
-      salaryMax: 2000,
-      type: 'Part-time',
-      experience: 'Junior',
-      deadline: '2024-12-28',
-      tags: ['Figma', 'Adobe XD', 'Sketch'],
-      description: 'Create beautiful user experiences...',
-      featured: true,
-      remote: true,
-      views: 567,
-      applicants: 28,
-      postedDate: '2024-12-05',
-    },
-    {
-      id: 4,
-      title: 'DevOps Engineer',
-      company: 'Cloud Solutions',
-      companyLogo: '☁️',
-      location: 'Remote',
-      city: 'Remote',
-      salary: 'Thỏa thuận',
-      type: 'Contract',
-      experience: 'Senior',
-      deadline: '2025-01-15',
-      tags: ['AWS', 'Docker', 'Kubernetes'],
-      description: 'Manage our cloud infrastructure...',
-      featured: false,
-      remote: true,
-      views: 1890,
-      applicants: 67,
-      postedDate: '2024-11-28',
-    },
-    // Add more mock jobs as needed
-  ];
 
   useEffect(() => {
-    // Simulate API call
-    setJobs(mockJobs);
-    setFilteredJobs(mockJobs);
+   const fetchJobs = async() => {
+    try {
+      const res = await jobService.getJobs();
+      console.log("Check res",res);
+      
+      if(res.code === 0 && res.data ){
+        setJobs(res.data.jobs);
+      }
+    } catch (error) {
+      console.error("Lỗi khi load jobs",error);
+      
+    }
+   }
+   fetchJobs();
   }, []);
+  console.log("Check jobs",jobs);
+  
+  const handleViewDetail = (jobId:number) => {
+    console.log("View detail job id:",jobId);
+    navigate(`/jobs/${jobId}`);
 
-
+  }
+  const getCompanyName = (company: Job['company']): string => {
+    return typeof company === 'string' ? company : company.company_name;
+  };
 
   const applyFilters = async() => {
     let result = [...jobs];
@@ -157,8 +93,8 @@ const JobList: React.FC = () => {
       result = result.filter(
         (job) =>
           job.title.toLowerCase().includes(keyword) ||
-          job.company.toLowerCase().includes(keyword) ||
-          job.tags.some((tag) => tag.toLowerCase().includes(keyword))
+          getCompanyName(job.company).toLowerCase().includes(keyword) ||
+          job.tags?.some((tag) => tag.toLowerCase().includes(keyword))
       );
     }
  
@@ -267,7 +203,7 @@ const JobList: React.FC = () => {
           <div className="job-list__search">
             <div className="job-list__search-wrapper">
               <div className="job-list__search-field">
-                <span className="job-list__search-icon">🔍</span>
+                <i className="fas fa-search job-list__search-icon"></i>
                 <input
                   type="text"
                   className="job-list__search-input"
@@ -277,7 +213,7 @@ const JobList: React.FC = () => {
                 />
               </div>
               <div className="job-list__search-field">
-                <span className="job-list__search-icon">📍</span>
+                <i className="fas fa-map-marker-alt job-list__search-icon"></i>
                 <input
                   type="text"
                   className="job-list__search-input"
@@ -303,7 +239,7 @@ const JobList: React.FC = () => {
                 className="job-list__sidebar-close"
                 onClick={() => setShowFilters(false)}
               >
-                ✕
+                <i className="fas fa-times"></i>
               </button>
             </div>
 
@@ -362,7 +298,7 @@ const JobList: React.FC = () => {
                   className="job-list__filter-toggle"
                   onClick={() => setShowFilters(!showFilters)}
                 >
-                  <span>🎛️</span>
+                  <i className="fas fa-sliders-h"></i>
                   Bộ lọc
                 </button>
                 <span className="job-list__result-count">
@@ -391,7 +327,7 @@ const JobList: React.FC = () => {
                     onClick={() => setViewMode('list')}
                     title="List view"
                   >
-                    ☰
+                    <i className="fas fa-list"></i>
                   </button>
                   <button
                     className={`job-list__view-button ${
@@ -400,7 +336,7 @@ const JobList: React.FC = () => {
                     onClick={() => setViewMode('grid')}
                     title="Grid view"
                   >
-                    ▦
+                    <i className="fas fa-th"></i>
                   </button>
                 </div>
               </div>
@@ -410,56 +346,58 @@ const JobList: React.FC = () => {
             {currentJobs.length > 0 ? (
               <div className={`job-list__grid job-list__grid--${viewMode}`}>
                 {currentJobs.map((job) => (
-                  <article key={job.id} className="job-list__card">
+                  <article key={job.id} className="job-list__card" onClick={() => handleViewDetail(job.id)}>
                     {job.featured && (
-                      <div className="job-list__card-badge">⭐ Nổi bật</div>
+                      <div className="job-list__card-badge">
+                        <i className="fas fa-star"></i> Nổi bật
+                      </div>
                     )}
 
                     <div className="job-list__card-header">
                       <div className="job-list__card-logo">{job.companyLogo}</div>
                       <div className="job-list__card-info">
                         <h3 className="job-list__card-title">{job.title}</h3>
-                        <p className="job-list__card-company">{job.company}</p>
+                        <p className="job-list__card-company">{getCompanyName(job.company)}</p>
                       </div>
                       <button className="job-list__card-bookmark" title="Lưu công việc">
-                        🔖
+                        <i className="far fa-bookmark"></i>
                       </button>
                     </div>
 
                     <div className="job-list__card-details">
                       <div className="job-list__card-detail">
-                        <span className="job-list__card-detail-icon">📍</span>
+                        <i className="fas fa-map-marker-alt job-list__card-detail-icon"></i>
                         <span className="job-list__card-detail-text">{job.location}</span>
                       </div>
                       <div className="job-list__card-detail">
-                        <span className="job-list__card-detail-icon">💰</span>
+                        <i className="fas fa-dollar-sign job-list__card-detail-icon"></i>
                         <span className="job-list__card-detail-text">{job.salary}</span>
                       </div>
                       <div className="job-list__card-detail">
-                        <span className="job-list__card-detail-icon">⏰</span>
+                        <i className="far fa-clock job-list__card-detail-icon"></i>
                         <span className="job-list__card-detail-text">{job.type}</span>
                       </div>
                       <div className="job-list__card-detail">
-                        <span className="job-list__card-detail-icon">📊</span>
+                        <i className="fas fa-chart-line job-list__card-detail-icon"></i>
                         <span className="job-list__card-detail-text">{job.experience}</span>
                       </div>
                     </div>
 
                     <div className="job-list__card-tags">
-                      {job.tags.map((tag) => (
+                      {job.tags?.map((tag) => (
                         <span key={tag} className="job-list__card-tag">
                           {tag}
                         </span>
-                      ))}
+                      )) || null}
                     </div>
 
                     <div className="job-list__card-footer">
                       <div className="job-list__card-meta">
                         <span className="job-list__card-meta-item">
-                          👁️ {job.views}
+                          <i className="far fa-eye"></i> {job.views}
                         </span>
                         <span className="job-list__card-meta-item">
-                          👥 {job.applicants} ứng viên
+                          <i className="fas fa-users"></i> {job.applicants} ứng viên
                         </span>
                         <span className="job-list__card-meta-item">
                           {formatDate(job.postedDate)}
@@ -472,7 +410,7 @@ const JobList: React.FC = () => {
               </div>
             ) : (
               <div className="job-list__empty">
-                <div className="job-list__empty-icon">🔍</div>
+                <i className="fas fa-search job-list__empty-icon"></i>
                 <h3 className="job-list__empty-title">Không tìm thấy công việc</h3>
                 <p className="job-list__empty-text">
                   Thử điều chỉnh bộ lọc hoặc từ khóa tìm kiếm
@@ -491,7 +429,7 @@ const JobList: React.FC = () => {
                   onClick={() => paginate(currentPage - 1)}
                   disabled={currentPage === 1}
                 >
-                  ← Trước
+                  <i className="fas fa-chevron-left"></i> Trước
                 </button>
 
                 <div className="job-list__pagination-pages">
@@ -529,7 +467,7 @@ const JobList: React.FC = () => {
                   onClick={() => paginate(currentPage + 1)}
                   disabled={currentPage === totalPages}
                 >
-                  Sau →
+                  Sau <i className="fas fa-chevron-right"></i>
                 </button>
               </div>
             )}
